@@ -1,7 +1,3 @@
-const campsiteRouter = require('./routes/campsiteRouter');
-const promotionRouter = require('./routes/promotionRouter');
-const partnerRouter = require('./routes/partnerRouter');
-
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -10,6 +6,10 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+
+const campsiteRouter = require('./routes/campsiteRouter');
+const promotionRouter = require('./routes/promotionRouter');
+const partnerRouter = require('./routes/partnerRouter');
 
 var app = express();
 
