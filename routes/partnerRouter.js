@@ -6,10 +6,10 @@ partnerRouter
   .route("/")
   .get((req, res, next) => {
     Partner.find()
-      .then((partner) => {
+      .then((partners) => {
         res.statusCode = 200;
         res.setHeader("Content-Type", "application/json");
-        res.json(partner);
+        res.json(partners);
       })
       .catch((err) => next(err));
   })
@@ -29,10 +29,10 @@ partnerRouter
   })
   .delete((req, res, next) => {
     Partner.deleteMany()
-      .then((partner) => {
+      .then((response) => {
         res.statusCode = 200;
         res.setHeader("Content-Type", "application/json");
-        res.json(partner);
+        res.json(response);
       })
       .catch((err) => next(err));
   });

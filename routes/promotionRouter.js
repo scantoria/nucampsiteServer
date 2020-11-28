@@ -6,10 +6,10 @@ promotionRouter
   .route("/")
   .get((req, res, next) => {
     Promotion.find()
-      .then((promotion) => {
+      .then((promotions) => {
         res.statusCode = 200;
         res.setHeader("Content-Type", "application/json");
-        res.json(promotion);
+        res.json(promotions);
       })
       .catch((err) => next(err));
   })
@@ -29,10 +29,10 @@ promotionRouter
   })
   .delete((req, res, next) => {
     Promotion.deleteMany()
-      .then((promotion) => {
+      .then((response) => {
         res.statusCode = 200;
         res.setHeader("Content-Type", "application/json");
-        res.json(promotion);
+        res.json(response);
       })
       .catch((err) => next(err));
   });
