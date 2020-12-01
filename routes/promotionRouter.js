@@ -58,7 +58,7 @@ promotionRouter
     Promotion.findByIdAndUpdate(
       req.params.promotionId,
       {
-        $set: body,
+        $set: req.body,
       },
       { new: true }
     )
