@@ -37,6 +37,25 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //app.use(cookieParser("12345-67890-09876-54321"));
 
+app.use("/", indexRouter);
+app.use("/users", usersRouter);
+function auth(req, res, next) {
+  console.log(req.session);
+  if (!req.session.user) {
+    const err = new Error("You are not authenticated!");
+    err.status = 401;
+    return next(err);
+  } else {
+    if (req.session.user === "Authenticated") {
+      return next();
+    } else {
+      const err = new Error("You are not authenticated!");
+      err.status = 401;
+      return next(err);
+    }
+  }
+}
+
 app.use(
   session({
     name: "session-id",
@@ -92,8 +111,8 @@ app.use(auth);
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
+//app.use("/", indexRouter);
+//app.use("/users", usersRouter);
 
 app.use("/campsites", campsiteRouter);
 app.use("/promotions", promotionRouter);
