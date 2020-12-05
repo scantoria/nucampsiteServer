@@ -1,14 +1,19 @@
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
-var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-const session = require("express-session");
-const FileStore = require("session-file-store")(session);
+
+//var cookieParser = require("cookie-parser");
+
+//const session = require("express-session");
+//const FileStore = require("session-file-store")(session);
 
 // passport
 const passport = require("passport");
 const authenticate = require("./authenticate");
+
+const config = require("./config");
+const url = config.mongoUrl;
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -69,6 +74,8 @@ function auth(req, res, next) {
 }
 */
 
+// Passport
+/*
 function auth(req, res, next) {
   console.log(req.user);
   if (!req.user) {
@@ -79,7 +86,10 @@ function auth(req, res, next) {
     return next();
   }
 }
+*/
 
+// Session
+/*
 app.use(
   session({
     name: "session-id",
@@ -89,12 +99,14 @@ app.use(
     store: new FileStore(),
   })
 );
+*/
 
 //
 // Basic YWRtaW46cGFzc3dvcmQ=
 // admin:password
 // ['admin', 'password']
 //
+/*
 function auth(req, res, next) {
   console.log(req.session);
 
@@ -132,6 +144,7 @@ function auth(req, res, next) {
   }
 }
 app.use(auth);
+*/
 
 app.use(express.static(path.join(__dirname, "public")));
 
