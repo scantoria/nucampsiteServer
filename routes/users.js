@@ -9,7 +9,17 @@ const router = express.Router();
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
-  res.send("respond with a resource");
+  //res.send("respond with a resource");
+
+  if (req.user.admin) {
+    User.find({}, function (err, users) {
+      const userMap = {};
+      users.forEach(function (user) {
+        userMap[user._id] = user;
+      });
+      res.send(userMap);
+    });
+  }
 });
 
 router.post("/signup", (req, res) => {
@@ -50,12 +60,15 @@ router.post("/login", passport.authenticate("local"), (req, res) => {
   // token exercise
   const token = authenticate.getToken({ _id: req.user._id });
 
+  // check if admin
+  const admin = authenticate.getToken({ admin: req.user.admin });
+
   res.statusCode = 200;
   res.setHeader("Content-Type", "application/json");
-  //res.json({ success: true, status: "You are successfully logged in!" });
   res.json({
     success: true,
     token: token,
+    admin: admin,
     status: "You are successfully logged in!",
   });
 });

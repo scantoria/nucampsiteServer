@@ -15,6 +15,7 @@ passport.deserializeUser(User.deserializeUser());
 exports.getToken = function (user) {
   return jwt.sign(user, config.secretKey, { expiresIn: 3600 });
 };
+
 const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = config.secretKey;
@@ -32,4 +33,6 @@ exports.jwtPassport = passport.use(
     });
   })
 );
+
+exports.verifyAdmin = passport.authenticate("jwt", { session: false });
 exports.verifyUser = passport.authenticate("jwt", { session: false });

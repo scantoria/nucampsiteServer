@@ -16,13 +16,18 @@ partnerRouter
       })
       .catch((err) => next(err));
   })
-  .post(authenticate.verifyUser, (req, res, next) => {
+  .post(authenticate.verifyAdmin, (req, res, next) => {
     Partner.create(res.body)
       .then((partner) => {
-        console.log("Partner Created", partner);
-        res.statusCode = 200;
-        res.setHeader("Content-Type", "application/json");
-        res.json(partner);
+        if (partner) {
+          onsole.log("Partner Created", partner);
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          res.json(partner);
+        } else {
+          err.status = 403;
+          return next(err);
+        }
       })
       .catch((err) => next(err));
   })
@@ -30,12 +35,17 @@ partnerRouter
     res.statusCode = 403;
     res.end("PUT operation not supported on /partner");
   })
-  .delete(authenticate.verifyUser, (req, res, next) => {
+  .delete(authenticate.verifyAdmin, (req, res, next) => {
     Partner.deleteMany()
       .then((response) => {
-        res.statusCode = 200;
-        res.setHeader("Content-Type", "application/json");
-        res.json(response);
+        if (response) {
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          res.json(response);
+        } else {
+          err.status = 403;
+          return next(err);
+        }
       })
       .catch((err) => next(err));
   });
@@ -55,7 +65,7 @@ partnerRouter
     res.statusCode = 403;
     res.end(`POST operation not supported on /partner/${req.params.partnerId}`);
   })
-  .put(authenticate.verifyUser, (req, res, next) => {
+  .put(authenticate.verifyAdmin, (req, res, next) => {
     Partner.findByIdAndUpdate(
       req.params.partnerId,
       {
@@ -64,18 +74,28 @@ partnerRouter
       { new: true }
     )
       .then((partner) => {
-        res.statusCode = 200;
-        res.setHeader("Content-Type", "application/json");
-        res.json(partner);
+        if (partner) {
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          res.json(partner);
+        } else {
+          err.status = 403;
+          return next(err);
+        }
       })
       .catch((err) => next(err));
   })
-  .delete(authenticate.verifyUser, (req, res, next) => {
+  .delete(authenticate.verifyAdmin, (req, res, next) => {
     Partner.findByIdAndDelete(req.params.partnerId)
       .then((partner) => {
-        res.statusCode = 200;
-        res.setHeader("Content-Type", "application/json");
-        res.json(partner);
+        if (partner) {
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          res.json(partner);
+        } else {
+          err.status = 403;
+          return next(err);
+        }
       })
       .catch((err) => next(err));
   });

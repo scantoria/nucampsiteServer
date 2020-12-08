@@ -16,13 +16,18 @@ promotionRouter
       })
       .catch((err) => next(err));
   })
-  .post(authenticate.verifyUser, (req, res, next) => {
+  .post(authenticate.verifyAdmin, (req, res, next) => {
     Promotion.create(res.body)
       .then((promotion) => {
-        console.log("Promotion Created", promotion);
-        res.statusCode = 200;
-        res.setHeader("Content-Type", "application/json");
-        res.json(promotion);
+        if (promotion) {
+          console.log("Promotion Created", promotion);
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          res.json(promotion);
+        } else {
+          err.status = 403;
+          return next(err);
+        }
       })
       .catch((err) => next(err));
   })
@@ -30,12 +35,17 @@ promotionRouter
     res.statusCode = 403;
     res.end("PUT operation not supported on /promotions");
   })
-  .delete(authenticate.verifyUser, (req, res, next) => {
+  .delete(authenticate.verifyAdmin, (req, res, next) => {
     Promotion.deleteMany()
       .then((response) => {
-        res.statusCode = 200;
-        res.setHeader("Content-Type", "application/json");
-        res.json(response);
+        if (response) {
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          res.json(response);
+        } else {
+          err.status = 403;
+          return next(err);
+        }
       })
       .catch((err) => next(err));
   });
@@ -57,7 +67,7 @@ promotionRouter
       `POST operation not supported on /promotions/${req.params.promotionId}`
     );
   })
-  .put(authenticate.verifyUser, (req, res, next) => {
+  .put(authenticate.verifyAdmin, (req, res, next) => {
     Promotion.findByIdAndUpdate(
       req.params.promotionId,
       {
@@ -66,18 +76,28 @@ promotionRouter
       { new: true }
     )
       .then((promotion) => {
-        res.statusCode = 200;
-        res.setHeader("Content-Type", "application/json");
-        res.json(promotion);
+        if (promotion) {
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          res.json(promotion);
+        } else {
+          err.status = 403;
+          return next(err);
+        }
       })
       .catch((err) => next(err));
   })
-  .delete(authenticate.verifyUser, (req, res, next) => {
+  .delete(authenticate.verifyAdmin, (req, res, next) => {
     Promotion.findByIdAndDelete(req.params.promotionId)
       .then((promotion) => {
-        res.statusCode = 200;
-        res.setHeader("Content-Type", "application/json");
-        res.json(promotion);
+        if (response) {
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          res.json(promotion);
+        } else {
+          err.status = 403;
+          return next(err);
+        }
       })
       .catch((err) => next(err));
   });
