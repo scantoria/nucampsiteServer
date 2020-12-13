@@ -186,10 +186,10 @@ campsiteRouter
     res.end(
       `PUT operation not supported on /campsites/${req.params.campsiteId}/comments`
     );
-  });
+  })
 
-// Deleted from workshop
-/*
+  // Deleted from workshop
+  /**/
   .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
     Campsite.findById(req.params.campsiteId)
       .then((campsite) => {
@@ -213,7 +213,6 @@ campsiteRouter
       })
       .catch((err) => next(err));
   });
-  */
 
 campsiteRouter
   .route("/:campsiteId/comments/:commentId")

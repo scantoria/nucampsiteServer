@@ -13,6 +13,7 @@ const promotionRouter = require("./routes/promotionRouter");
 const partnerRouter = require("./routes/partnerRouter");
 const mongoose = require("mongoose");
 const uploadRouter = require("./routes/uploadRouter");
+const favoriteRouter = require("./routes/favoriteRouter");
 
 const url = config.mongoUrl;
 const connect = mongoose.connect(url, {
@@ -64,6 +65,7 @@ app.use("/campsites", campsiteRouter);
 app.use("/promotions", promotionRouter);
 app.use("/partners", partnerRouter);
 app.use("/imageUpload", uploadRouter);
+app.use("/favorites", favoriteRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
